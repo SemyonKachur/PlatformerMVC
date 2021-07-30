@@ -12,7 +12,7 @@ namespace PlatformerMVC
         [SerializeField] private float _movingTreshold = 0.1f;
         [SerializeField] private float _jumpTreshold = 0.6f;
 
-        [SerializeField] private int _healhPoints = 5;
+        [SerializeField] private int _healhPoints = 10;
         [SerializeField] private float _damage = 2f;
 
         [SerializeField] private Vector2 _respawn = new Vector2(-6.5f,-1.5f);

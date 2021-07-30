@@ -6,26 +6,36 @@ namespace PlatformerMVC
     public class Controllers
     {
         private SpriteAnimatorConfig _policemanConfig;
+        private SpriteAnimatorConfig _coinConfig;
         private LevelObjectView _enemyView;
+        private LevelObjectView [] _coinViews;
         private SpriteAnimatorController _enemyAnimator;
+        private SpriteAnimatorController _coinAnimation;
         private PlayerController _playerMoveController;
         private GunMoveController _gunController;
         private CameraController _cameraController;
         private CoinController _coinController;
+        private ExplosionController _explosionController;
+        private LiftController _liftController;
+        
 
         public  Controllers()
         {
             _playerMoveController = new PlayerController();
-            LoadEnemiesController();
             _gunController = new GunMoveController(_playerMoveController.GetPlayerTransform());
             _cameraController = new CameraController(_playerMoveController.GetPlayerTransform(), Camera.main.transform);
             _coinController = new CoinController();
+            LoadCoinAnimation();
+            _explosionController = new ExplosionController(_gunController.GetBulletView());
+            _liftController = new LiftController();
         }       
         public void Update()
         {
-            _enemyAnimator.Update();
             _gunController.Update();
             _cameraController.Update();
+            _coinAnimation.Update();
+            _explosionController.Update();
+            _liftController.Update();
         }
 
         public void FixedUpdate()
@@ -33,12 +43,22 @@ namespace PlatformerMVC
             _playerMoveController.FixedUpdate();
         }
 
-        private void LoadEnemiesController()
+        //private void LoadEnemiesController()
+        //{
+        //    _policemanConfig = Resources.Load<SpriteAnimatorConfig>("PolicemanAnimationCfg");
+        //    _enemyView = GameObject.FindGameObjectWithTag("Enemy").AddComponent<LevelObjectView>();
+        //    _enemyAnimator = new SpriteAnimatorController(_policemanConfig);
+        //    _enemyAnimator.StartAnimation(_enemyView._spriteRenderer, AnimState.Run);
+        //}
+        private void LoadCoinAnimation()
         {
-            _policemanConfig = Resources.Load<SpriteAnimatorConfig>("PolicemanAnimationCfg");
-            _enemyView = GameObject.FindGameObjectWithTag("Enemy").AddComponent<LevelObjectView>();
-            _enemyAnimator = new SpriteAnimatorController(_policemanConfig);
-            _enemyAnimator.StartAnimation(_enemyView._spriteRenderer, AnimState.Run);
+            _coinConfig = Resources.Load<SpriteAnimatorConfig>("CoinAnimator");
+            _coinAnimation = new SpriteAnimatorController(_coinConfig);
+            _coinViews = GameObject.FindObjectsOfType<CoinKeeper>();
+            for (int i = 0; i < _coinViews.Length; i++)
+            {
+                _coinAnimation.StartAnimation(_coinViews[i]._spriteRenderer, AnimState.Idle, true, 10);
+            }
         }
         
     }

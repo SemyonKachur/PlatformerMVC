@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace PlatformerMVC
 {
-    public class PlayerController
+    public class PlayerController : ITakeDamage
     {
         private float _xAxisInput;
         private bool _isJump;
@@ -16,19 +16,11 @@ namespace PlatformerMVC
 
         private float _jumpForce;
         private float _jumpTreshold;
-        private float _g = -9.8f;
-        private float _yVelocity = 0f;
         private float _xVelocity = 0f;
-
-        private LevelObjectView _view;
-        private SpriteAnimatorController _spriteAnimator;
-        private SpriteAnimatorConfig _playerAnimatorConfig;
         private PlayerStats _playerData;
-        private readonly ContactPoller _contactPoller;
+        private float _health;
 
-        private CapsuleCollider2D _playerCollider;
-        private Rigidbody2D _playerRigidbody;
-       
+        private PlayerViewController _playerView;
 
         public PlayerController()
         {
@@ -38,35 +30,37 @@ namespace PlatformerMVC
             _movingTreshold = _playerData.MovingTrashold;
             _jumpForce = _playerData.JumpForce;
             _jumpTreshold = _playerData.JumpTrashold;
-
-            _playerAnimatorConfig = Resources.Load<SpriteAnimatorConfig>("PlayerAnimCfg");
-            _view = GameObject.FindGameObjectWithTag("Player").AddComponent<LevelObjectView>();
-            _view._transform.position = _playerData.Respawn;
-            _playerRigidbody = _view.gameObject.GetComponent<Rigidbody2D>();
-            _playerCollider = _playerRigidbody.gameObject.GetComponent<CapsuleCollider2D>();
-            _spriteAnimator = new SpriteAnimatorController(_playerAnimatorConfig);
-            _contactPoller = new ContactPoller(_playerCollider);
+            _health = _playerData.HealthPoints;
+            _playerView = new PlayerViewController();
+            _playerView.PlayerView._transform.position = _playerData.Respawn;
         }
         public Transform GetPlayerTransform()
         {
-            return _view._transform;
+            return _playerView.PlayerView._transform;
         }
 
+        public void TakeDamage(int damage)
+        {
+            _health -= damage;
+            if (_health <= 0)
+            {
+                //Death();
+            }
+        }
         private void MoveTowards()
         {
             _xVelocity = _walkSpeed * Time.deltaTime * (_xAxisInput < 0 ? -1 : 1);
-            _playerRigidbody.velocity = _playerRigidbody.velocity.Change(x:_xVelocity);
-            _view._transform.localScale = (_xAxisInput < 0 ? _leftScale : _rightScale);
+            _playerView.PlayerRigidbody.velocity = _playerView.PlayerRigidbody.velocity.Change(x:_xVelocity);
+            _playerView.PlayerView._transform.localScale = (_xAxisInput < 0 ? _leftScale : _rightScale);
         }
 
         public void FixedUpdate()
         {
-            _spriteAnimator.Update();
-            _contactPoller.Update();
+            _playerView.FixedUpdate();
             _xAxisInput = Input.GetAxis("Horizontal");
             _isJump = Input.GetAxis("Vertical") > 0;
             isMoving = Mathf.Abs(_xAxisInput) > _movingTreshold;
-            bool isGrounded = _playerRigidbody.velocity.y <= _jumpTreshold;
+            bool isGrounded = _playerView.PlayerRigidbody.velocity.y <= _jumpTreshold;
 
 
             if (isMoving)
@@ -74,22 +68,20 @@ namespace PlatformerMVC
                 MoveTowards();
             }
 
-            if (_contactPoller.isGrounded)
+            if (_playerView.ContactPoller.isGrounded)
             {
-                _spriteAnimator.StartAnimation(_view._spriteRenderer, isMoving ? AnimState.Run : AnimState.Idle, true, _animationSpeed);
-
+                _playerView.SpriteAnimatorController.StartAnimation(_playerView.PlayerView._spriteRenderer, isMoving ? AnimState.Run : AnimState.Idle, true, _animationSpeed);
 
                 if(_isJump && isGrounded)
                 {
-                    _playerRigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
-                }
-                
+                    _playerView.PlayerRigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+                }                
             }
             else
             {
-                if(Mathf.Abs(_playerRigidbody.velocity.y) > _jumpTreshold)
+                if(Mathf.Abs(_playerView.PlayerRigidbody.velocity.y) > _jumpTreshold)
                 {
-                    _spriteAnimator.StartAnimation(_view._spriteRenderer, AnimState.Jump, true, _animationSpeed);
+                    _playerView.SpriteAnimatorController.StartAnimation(_playerView.PlayerView._spriteRenderer, AnimState.Jump, true, _animationSpeed);
                 }
 
             }
