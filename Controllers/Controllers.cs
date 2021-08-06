@@ -17,11 +17,13 @@ namespace PlatformerMVC
         private CoinController _coinController;
         private ExplosionController _explosionController;
         private LiftController _liftController;
+        private UIController _playerUIController;
         
 
         public  Controllers()
         {
             _playerMoveController = new PlayerController();
+            _playerUIController = new UIController(_playerMoveController);
             _gunController = new GunMoveController(_playerMoveController.GetPlayerTransform());
             _cameraController = new CameraController(_playerMoveController.GetPlayerTransform(), Camera.main.transform);
             _coinController = new CoinController();

@@ -19,7 +19,7 @@ namespace PlatformerMVC
             _explosion = GameObject.FindGameObjectWithTag("Explosion");
             _explosionView = _explosion.GetComponent<LevelObjectView>();
             _explosion.SetActive(false);
-            _bullet.CoinContact += Explosion;
+            _bullet.PlayerContact += Explosion;
         }
 
         public void Explosion(GameObject target)

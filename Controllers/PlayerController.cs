@@ -18,9 +18,13 @@ namespace PlatformerMVC
         private float _jumpTreshold;
         private float _xVelocity = 0f;
         private PlayerStats _playerData;
-        private float _health;
+        private int _health;
+        private int _lives;
 
         private PlayerViewController _playerView;
+
+        public int PlayerHealthPoints => _health;
+        public int PlayerLives => _lives;
 
         public PlayerController()
         {
@@ -31,6 +35,7 @@ namespace PlatformerMVC
             _jumpForce = _playerData.JumpForce;
             _jumpTreshold = _playerData.JumpTrashold;
             _health = _playerData.HealthPoints;
+            _lives = _playerData.Lives;
             _playerView = new PlayerViewController();
             _playerView.PlayerView._transform.position = _playerData.Respawn;
         }
