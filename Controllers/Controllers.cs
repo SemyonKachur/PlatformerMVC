@@ -18,6 +18,8 @@ namespace PlatformerMVC
         private ExplosionController _explosionController;
         private LiftController _liftController;
         private UIController _playerUIController;
+        private AIEnemiesController _aiEnemiesController;
+        private EnemyViewController _enemyViewController;
         
 
         public  Controllers()
@@ -30,6 +32,8 @@ namespace PlatformerMVC
             LoadCoinAnimation();
             _explosionController = new ExplosionController(_gunController.GetBulletView());
             _liftController = new LiftController();
+            _aiEnemiesController = new AIEnemiesController();
+            _enemyViewController = new EnemyViewController();
         }       
         public void Update()
         {
@@ -43,6 +47,8 @@ namespace PlatformerMVC
         public void FixedUpdate()
         {
             _playerMoveController.FixedUpdate();
+            _aiEnemiesController.FixedUpdate();
+            _enemyViewController.FixedUpdate();
         }
 
         //private void LoadEnemiesController()

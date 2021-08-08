@@ -14,6 +14,7 @@ namespace PlatformerMVC
             _unit = this.gameObject;
             _transform = _unit.transform;
             _spriteRenderer = _unit.GetComponent<SpriteRenderer>();
+            _rigidbody = _unit.GetComponent<Rigidbody2D>();
         }
     }
 }
