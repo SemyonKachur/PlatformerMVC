@@ -8,7 +8,8 @@ namespace PlatformerMVC
 
         void Awake()
         {
-            _controllers = new Controllers();     
+            _controllers = new Controllers();
+            _controllers.LevelGeneratorController.Init();
         }
                 
         void Update()

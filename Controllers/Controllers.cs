@@ -20,7 +20,10 @@ namespace PlatformerMVC
         private UIController _playerUIController;
         private AIEnemiesController _aiEnemiesController;
         private EnemyViewController _enemyViewController;
-        
+        private GeneratorLevelView _generatorLevelView;
+        private GeneratorController _levelGeneratorController;
+
+        public GeneratorController LevelGeneratorController { get => _levelGeneratorController; }
 
         public  Controllers()
         {
@@ -34,6 +37,8 @@ namespace PlatformerMVC
             _liftController = new LiftController();
             _aiEnemiesController = new AIEnemiesController();
             _enemyViewController = new EnemyViewController();
+            _generatorLevelView = new GeneratorLevelView();
+            _levelGeneratorController = new GeneratorController(_generatorLevelView);
         }       
         public void Update()
         {
@@ -50,14 +55,7 @@ namespace PlatformerMVC
             _aiEnemiesController.FixedUpdate();
             _enemyViewController.FixedUpdate();
         }
-
-        //private void LoadEnemiesController()
-        //{
-        //    _policemanConfig = Resources.Load<SpriteAnimatorConfig>("PolicemanAnimationCfg");
-        //    _enemyView = GameObject.FindGameObjectWithTag("Enemy").AddComponent<LevelObjectView>();
-        //    _enemyAnimator = new SpriteAnimatorController(_policemanConfig);
-        //    _enemyAnimator.StartAnimation(_enemyView._spriteRenderer, AnimState.Run);
-        //}
+                
         private void LoadCoinAnimation()
         {
             _coinConfig = Resources.Load<SpriteAnimatorConfig>("CoinAnimator");
