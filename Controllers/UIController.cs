@@ -20,7 +20,7 @@ namespace PlatformerMVC
             _player = playerController;
             _uiFactory = new UIFactory();
             _uiHealhtText = new UIHealthText(_uiFactory);
-            _uiHealHealthView = new UIHealthView(_uiFactory,_player.PlayerHealthPoints, _uiHealhtText.GetRectTransform());
+            _uiHealHealthView = new UIHealthView(_uiFactory,playerController.PlayerView,_player.PlayerHealthPoints, _uiHealhtText.GetRectTransform());
             _uiLivesView = new UILivesView(_uiFactory);
             _uiLivesText = new UILivesText(_uiFactory, _uiLivesView.GetRectTransform(),_player.PlayerLives);
 

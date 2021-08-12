@@ -13,6 +13,8 @@ namespace PlatformerMVC
         public bool isGrounded { get; private set; }
         public bool HasLeftContact { get; private set; }
         public bool HasRightContact { get; private set; }
+        public ContactPoint2D[] Contacts => _contacts;
+        public int ContactCount => _contactCount;
 
         public ContactPoller(Collider2D collider)
         {

@@ -20,9 +20,9 @@ namespace PlatformerMVC
         private PlayerStats _playerData;
         private int _health;
         private int _lives;
-
         private PlayerViewController _playerView;
 
+        public PlayerViewController PlayerView => _playerView;
         public int PlayerHealthPoints => _health;
         public int PlayerLives => _lives;
 
@@ -38,6 +38,7 @@ namespace PlatformerMVC
             _lives = _playerData.Lives;
             _playerView = new PlayerViewController();
             _playerView.PlayerView._transform.position = _playerData.Respawn;
+            _playerView.Damage += TakeDamage;
         }
         public Transform GetPlayerTransform()
         {

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace PlatformerMVC
@@ -19,6 +20,8 @@ namespace PlatformerMVC
         public CapsuleCollider2D PlayerCollider => _playerCollider;
         public Rigidbody2D PlayerRigidbody => _playerRigidbody;
 
+        public event Action<int> Damage = delegate (int damage) { };
+
 
         public PlayerViewController()
         {
@@ -34,6 +37,13 @@ namespace PlatformerMVC
         {
             _spriteAnimator.Update();
             _contactPoller.Update();
+            for (int i = 0; i < _contactPoller.ContactCount; i++)
+            {
+                if (_contactPoller.Contacts[i].collider.gameObject.CompareTag("Enemy"))
+                {
+                    Damage.Invoke(1);
+                }
+            }
         }
     }
 }

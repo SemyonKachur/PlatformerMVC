@@ -7,6 +7,7 @@ namespace PlatformerMVC
     public class UIHealthView
     {
         private UIFactory _uiFactory;
+        private PlayerViewController _playerViewController;
         private RectTransform _textRextTransform;
         private RectTransform _imageRectTransform;
         private Image _spriteImage;
@@ -16,8 +17,9 @@ namespace PlatformerMVC
         private UIData _imageData;
         List<RectTransform> health = new List<RectTransform>();
 
-        public UIHealthView(UIFactory uiFactory,int playerHealth, RectTransform healthTextTransform)
+        public UIHealthView(UIFactory uiFactory,PlayerViewController playerViewController,int playerHealth, RectTransform healthTextTransform)
         {
+            _playerViewController = playerViewController;
             _uiFactory = uiFactory;
             _imageData = Resources.Load<UIData>("UIHealthView");
             _image = _imageData.Sprite;
@@ -44,6 +46,7 @@ namespace PlatformerMVC
                 _spriteImage.sprite = _image;
                 _spriteImage.color = _imageData.Color;
             }
+            _playerViewController.Damage += Damage;
         }
         public void Damage(int damage)
         {

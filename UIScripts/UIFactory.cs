@@ -14,10 +14,8 @@ namespace PlatformerMVC
         }
         public RectTransform CreateNewCanvasElement()
         {
-            _canvas = GameObject.Find("Canvas");
             _canvasComponent = new GameObject("NewCanvasElement").AddComponent<RectTransform>();
             _canvasComponent.SetParent(_canvas.transform);
-            _canvasComponent.localPosition = Vector3.zero;
             return _canvasComponent;
         }
 
