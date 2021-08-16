@@ -14,9 +14,9 @@ namespace PlatformerMVC
         {
             if (collision.gameObject.CompareTag("Player"))
             {
-                PlayerContact.Invoke(this.gameObject);
-                Damage.Invoke(1);
-                gameObject.SetActive(false);
+                //PlayerContact.Invoke(this.gameObject);
+                //Damage.Invoke(1);
+                //gameObject.SetActive(false);
             }
             
         }

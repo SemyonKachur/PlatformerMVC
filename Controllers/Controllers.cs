@@ -24,6 +24,7 @@ namespace PlatformerMVC
         private GeneratorController _levelGeneratorController;
 
         public GeneratorController LevelGeneratorController { get => _levelGeneratorController; }
+        public PlayerController PlayerController => _playerMoveController;
 
         public  Controllers()
         {
@@ -33,7 +34,7 @@ namespace PlatformerMVC
             _cameraController = new CameraController(_playerMoveController.GetPlayerTransform(), Camera.main.transform);
             _coinController = new CoinController();
             LoadCoinAnimation();
-            _explosionController = new ExplosionController(_gunController.GetBulletView());
+            _explosionController = new ExplosionController(_playerMoveController.PlayerView);
             _liftController = new LiftController();
             _aiEnemiesController = new AIEnemiesController();
             _enemyViewController = new EnemyViewController();

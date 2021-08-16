@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace PlatformerMVC
 {
@@ -12,19 +10,24 @@ namespace PlatformerMVC
         private UIHealthView _uiHealHealthView;
         private UILivesText _uiLivesText;
         private UILivesView _uiLivesView;
-        private BulletView _bulletView;
+
        
         public UIController(PlayerController playerController)
         {
-            _bulletView = GameObject.FindObjectOfType<BulletView>();
             _player = playerController;
             _uiFactory = new UIFactory();
+            _uiLivesView = new UILivesView(_uiFactory);
+            _uiLivesText = new UILivesText(_uiFactory, _uiLivesView.GetRectTransform(), _player.PlayerLives);
             _uiHealhtText = new UIHealthText(_uiFactory);
             _uiHealHealthView = new UIHealthView(_uiFactory,playerController.PlayerView,_player.PlayerHealthPoints, _uiHealhtText.GetRectTransform());
-            _uiLivesView = new UILivesView(_uiFactory);
-            _uiLivesText = new UILivesText(_uiFactory, _uiLivesView.GetRectTransform(),_player.PlayerLives);
 
-            _bulletView.Damage += _uiHealHealthView.Damage;
+            _player.PlayerView.PlayerHP += PlayerHP;
+        }
+
+        private void PlayerHP(int healthPoints, int lives)
+        {
+            _uiHealHealthView.Update(healthPoints);
+            _uiLivesText.Update(lives);
         }
 
     }

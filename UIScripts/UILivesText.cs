@@ -49,5 +49,10 @@ namespace PlatformerMVC
             _healthText.resizeTextForBestFit = true;
         }
 
+        public void Update(int lives)
+        {
+            _livesCountTransform.GetComponent<Text>().text = lives.ToString();
+        }
+
     }
 }

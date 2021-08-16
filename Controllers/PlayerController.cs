@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace PlatformerMVC
 {
-    public class PlayerController : ITakeDamage
+    public class PlayerController
     {
         private float _xAxisInput;
         private bool _isJump;
@@ -23,8 +23,9 @@ namespace PlatformerMVC
         private PlayerViewController _playerView;
 
         public PlayerViewController PlayerView => _playerView;
-        public int PlayerHealthPoints => _health;
-        public int PlayerLives => _lives;
+        public PlayerStats PlayerData => _playerData;
+        public int PlayerHealthPoints { get => _health; set => _health = value; }
+        public int PlayerLives { get => _lives; set => _lives = value; }
 
         public PlayerController()
         {
@@ -36,23 +37,14 @@ namespace PlatformerMVC
             _jumpTreshold = _playerData.JumpTrashold;
             _health = _playerData.HealthPoints;
             _lives = _playerData.Lives;
-            _playerView = new PlayerViewController();
+            _playerView = new PlayerViewController(this);
             _playerView.PlayerView._transform.position = _playerData.Respawn;
-            _playerView.Damage += TakeDamage;
         }
         public Transform GetPlayerTransform()
         {
             return _playerView.PlayerView._transform;
         }
-
-        public void TakeDamage(int damage)
-        {
-            _health -= damage;
-            if (_health <= 0)
-            {
-                //Death();
-            }
-        }
+       
         private void MoveTowards()
         {
             _xVelocity = _walkSpeed * Time.deltaTime * (_xAxisInput < 0 ? -1 : 1);

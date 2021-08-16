@@ -15,12 +15,17 @@ namespace PlatformerMVC
         private Button _exit;
         private Button _resume;
         private Text _buttonText;
+        private Text _gameOverText;
 
         private Sprite _sprite;
         private Image _image;
 
         public bool isGameStart = false;
         public RectTransform MenuPanel => _menuPanel;
+        public GameObject ResumeButton => _resume.gameObject;
+        public GameObject StatrGame => _startGame.gameObject;
+        public GameObject GameOverText => _gameOverText.gameObject;
+
         public event Action<bool> IsGameStart = delegate (bool isGameStart) { };
 
         public MainAndPauseMenu()
@@ -43,7 +48,10 @@ namespace PlatformerMVC
             _resume = CreateButton(_uiData);
             _resume.gameObject.SetActive(false);
             _resume.onClick.AddListener(ResumeGame);
-                     
+
+            _uiData = Resources.Load<UIData>("GameOverTextData");
+            _gameOverText = CreateGameOverText(_uiData);
+            _gameOverText.gameObject.SetActive(false);                             
         }
 
         private RectTransform CreateCanvasElement()
@@ -106,9 +114,28 @@ namespace PlatformerMVC
             return button;
         }
 
+        private Text CreateGameOverText(UIData textData)
+        {
+            _gameOverText = CreateMenuPanelElement().gameObject.AddComponent<Text>();
+            _gameOverText.name = _uiData.Name;
+            _canvasComponent.anchorMin = new Vector2(0.5f, 0.5f);
+            _canvasComponent.anchorMax = new Vector2(0.5f, 0.5f);
+            _canvasComponent.pivot = new Vector2(0.5f, 0.5f);
+            _canvasComponent.localScale = new Vector3(1, 1, 1);
+            _canvasComponent.sizeDelta = new Vector2(_uiData.WidthTransform, _uiData.HeightTrnsform);
+            _canvasComponent.anchoredPosition = _uiData.Position;
+            _gameOverText.text = _uiData.Text;
+            _gameOverText.color = _uiData.Color;
+            _gameOverText.font = _uiData.Font;
+            _gameOverText.alignment = TextAnchor.MiddleCenter;
+            _gameOverText.fontStyle = FontStyle.Bold;
+            _gameOverText.resizeTextForBestFit = true;
+            return _gameOverText;
+        }
+
         private void GameStart()
         {
-            _startGame = _resume;
+            _startGame.gameObject.SetActive(false);
             _resume.gameObject.SetActive(true);
             _menuPanel.gameObject.SetActive(false);
             IsGameStart.Invoke(true);

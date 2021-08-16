@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Pathfinding;
+//using Pathfinding;
 
 namespace PlatformerMVC
 {
@@ -22,8 +22,7 @@ namespace PlatformerMVC
         [SerializeField] private LevelObjectView _simplePatrolAIView;
 
         private SimplePatrolAI _simplePatrolAI;
-        private ProtectorAI _protectorAI;
-        private ProtectedZone _protectedZone;
+
 
         public EnemiesConfig()
         {

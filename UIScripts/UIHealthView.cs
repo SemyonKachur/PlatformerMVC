@@ -46,23 +46,22 @@ namespace PlatformerMVC
                 _spriteImage.sprite = _image;
                 _spriteImage.color = _imageData.Color;
             }
-            _playerViewController.Damage += Damage;
+
         }
+
+        public void Update(int _health)
+        {
+            while (_health!= health.Count)
+            {
+                if (_health < health.Count) Damage(1);
+                else Heal();
+            }
+        }
+
         public void Damage(int damage)
         {
-            if (damage == 1)
-            {
-                health[health.Count - 1].gameObject.SetActive(false);
-                health.Remove(health[health.Count - 1]);
-            }
-            else
-            {
-                for (int i = 0; i < damage; i++)
-                {
-                    health[health.Count - 1].gameObject.SetActive(false);
-                    health.Remove(health[health.Count - 1]);
-                }
-            }
+                health[health.Count-1].gameObject.SetActive(false);
+                health.Remove(health[health.Count-1]);
         }
         public void Heal()
         {
@@ -79,9 +78,7 @@ namespace PlatformerMVC
                 _spriteImage = _imageRectTransform.gameObject.AddComponent<Image>();
                 _spriteImage.sprite = _image;
                 _spriteImage.color = _imageData.Color;
-                _imageRectTransform.parent.transform.position = Vector3.zero;
-                if (health[0]) _imageRectTransform.localPosition = Vector3.zero + new Vector3(_textRextTransform.sizeDelta.x, 0, 0);
-                else _imageRectTransform.localPosition = Vector3.zero + new Vector3(_textRextTransform.sizeDelta.x + _imageWidth * health.Count - 2, 0, 0);
+                _imageRectTransform.anchoredPosition = Vector3.zero + new Vector3(_textRextTransform.sizeDelta.x + _imageWidth * (health.Count-1), 0, 0);
             }
         }
     }    

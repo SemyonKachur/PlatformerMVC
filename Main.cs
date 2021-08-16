@@ -7,6 +7,7 @@ namespace PlatformerMVC
         private Controllers _controllers;
         private MainAndPauseMenu _menu;
         private bool _isGameOn = false;
+        private bool _gameOver = false;
 
         public bool IsGameOn => _isGameOn;
 
@@ -17,6 +18,7 @@ namespace PlatformerMVC
             _menu.IsGameStart += GameStart;
             _controllers = new Controllers();
             _controllers.LevelGeneratorController.Init();
+            _controllers.PlayerController.PlayerView.GameOver += GameOver;
         }
                 
         void Update()
@@ -25,6 +27,15 @@ namespace PlatformerMVC
             {
                 _isGameOn = false;
                 _menu.MenuPanel.gameObject.SetActive(true);
+            }
+
+            if (_gameOver)
+            {
+                _isGameOn = false;
+                _menu.MenuPanel.gameObject.SetActive(true);
+                _menu.ResumeButton.SetActive(false);
+                _menu.StatrGame.SetActive(false);
+                _menu.GameOverText.SetActive(true);
             }
 
             if (_isGameOn)
@@ -41,9 +52,14 @@ namespace PlatformerMVC
             }
         }
 
-        private void GameStart(bool isGameStart)
+        private void GameStart(bool isGameOn)
         {
-            _isGameOn = isGameStart;
+            _isGameOn = isGameOn;
+        }
+
+        private void GameOver(bool gameOver)
+        {
+            _gameOver = gameOver;
         }
     }
 }

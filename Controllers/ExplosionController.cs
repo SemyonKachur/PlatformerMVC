@@ -5,21 +5,21 @@ namespace PlatformerMVC
     public class ExplosionController
     {
         private GameObject _explosion;
-        private BulletView _bullet;
+        private PlayerViewController _playerView;
         private LevelObjectView _explosionView;
         private SpriteAnimatorConfig _spriteConfig;
         private SpriteAnimatorController _animatorController;
         private float _explosionTime;
         
-        public ExplosionController(BulletView buletView)
+        public ExplosionController(PlayerViewController playerView)
         {
-            _bullet = buletView;
+            _playerView = playerView;
             _spriteConfig = Resources.Load<SpriteAnimatorConfig>("ExplosionAnimator");
             _animatorController = new SpriteAnimatorController(_spriteConfig);
             _explosion = GameObject.FindGameObjectWithTag("Explosion");
             _explosionView = _explosion.GetComponent<LevelObjectView>();
             _explosion.SetActive(false);
-            _bullet.PlayerContact += Explosion;
+            _playerView.PlayerContact += Explosion;
         }
 
         public void Explosion(GameObject target)
