@@ -21,6 +21,7 @@ namespace PlatformerMVC
             _uiHealhtText = new UIHealthText(_uiFactory);
             _uiHealHealthView = new UIHealthView(_uiFactory,playerController.PlayerView,_player.PlayerHealthPoints, _uiHealhtText.GetRectTransform());
 
+
             _player.PlayerView.PlayerHP += PlayerHP;
         }
 

@@ -16,6 +16,7 @@ namespace PlatformerMVC
         private Button _resume;
         private Text _buttonText;
         private Text _gameOverText;
+        private Text _winGameText;
 
         private Sprite _sprite;
         private Image _image;
@@ -25,6 +26,7 @@ namespace PlatformerMVC
         public GameObject ResumeButton => _resume.gameObject;
         public GameObject StatrGame => _startGame.gameObject;
         public GameObject GameOverText => _gameOverText.gameObject;
+        public GameObject WinGameText => _winGameText.gameObject;
 
         public event Action<bool> IsGameStart = delegate (bool isGameStart) { };
 
@@ -50,8 +52,12 @@ namespace PlatformerMVC
             _resume.onClick.AddListener(ResumeGame);
 
             _uiData = Resources.Load<UIData>("GameOverTextData");
-            _gameOverText = CreateGameOverText(_uiData);
-            _gameOverText.gameObject.SetActive(false);                             
+            _gameOverText = CreateText(_uiData,_gameOverText);
+            _gameOverText.gameObject.SetActive(false);
+
+            _uiData = Resources.Load<UIData>("WinGameTextData");
+            _winGameText = CreateText(_uiData,_winGameText);
+            _winGameText.gameObject.SetActive(false);
         }
 
         private RectTransform CreateCanvasElement()
@@ -114,23 +120,23 @@ namespace PlatformerMVC
             return button;
         }
 
-        private Text CreateGameOverText(UIData textData)
+        private Text CreateText(UIData textData, Text textObject)
         {
-            _gameOverText = CreateMenuPanelElement().gameObject.AddComponent<Text>();
-            _gameOverText.name = _uiData.Name;
+            textObject = CreateMenuPanelElement().gameObject.AddComponent<Text>();
+            textObject.name = _uiData.Name;
             _canvasComponent.anchorMin = new Vector2(0.5f, 0.5f);
             _canvasComponent.anchorMax = new Vector2(0.5f, 0.5f);
             _canvasComponent.pivot = new Vector2(0.5f, 0.5f);
             _canvasComponent.localScale = new Vector3(1, 1, 1);
             _canvasComponent.sizeDelta = new Vector2(_uiData.WidthTransform, _uiData.HeightTrnsform);
             _canvasComponent.anchoredPosition = _uiData.Position;
-            _gameOverText.text = _uiData.Text;
-            _gameOverText.color = _uiData.Color;
-            _gameOverText.font = _uiData.Font;
-            _gameOverText.alignment = TextAnchor.MiddleCenter;
-            _gameOverText.fontStyle = FontStyle.Bold;
-            _gameOverText.resizeTextForBestFit = true;
-            return _gameOverText;
+            textObject.text = _uiData.Text;
+            textObject.color = _uiData.Color;
+            textObject.font = _uiData.Font;
+            textObject.alignment = TextAnchor.MiddleCenter;
+            textObject.fontStyle = FontStyle.Bold;
+            textObject.resizeTextForBestFit = true;
+            return textObject;
         }
 
         private void GameStart()

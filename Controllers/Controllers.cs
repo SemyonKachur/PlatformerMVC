@@ -22,9 +22,12 @@ namespace PlatformerMVC
         private EnemyViewController _enemyViewController;
         private GeneratorLevelView _generatorLevelView;
         private GeneratorController _levelGeneratorController;
+        private WinGameController _winGameController;
+
 
         public GeneratorController LevelGeneratorController { get => _levelGeneratorController; }
         public PlayerController PlayerController => _playerMoveController;
+        public WinGameController WinGameController => _winGameController;
 
         public  Controllers()
         {
@@ -40,6 +43,7 @@ namespace PlatformerMVC
             _enemyViewController = new EnemyViewController();
             _generatorLevelView = new GeneratorLevelView();
             _levelGeneratorController = new GeneratorController(_generatorLevelView);
+            _winGameController = new WinGameController();
         }       
         public void Update()
         {

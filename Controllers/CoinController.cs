@@ -1,4 +1,6 @@
 using UnityEngine;
+using System;
+using System.Linq;
 
 namespace PlatformerMVC
 {
@@ -6,6 +8,10 @@ namespace PlatformerMVC
     public class CoinController
     {
         private CoinKeeper[] _coins;
+        private bool _isCoinsCollected = false;
+
+        public bool IsCoinCollected => _isCoinsCollected;
+        public event Action<bool> AllCoinCollected = delegate (bool isCoinColledted) { };
         public CoinController()
         {
             _coins = GameObject.FindObjectsOfType<CoinKeeper>();
@@ -17,6 +23,11 @@ namespace PlatformerMVC
         private void CoinContact(GameObject gameObject)
         {
             gameObject.SetActive(false);
+            if (_coins.All(value => value.IsDone)==true)
+            {
+                _isCoinsCollected = true;
+                AllCoinCollected.Invoke(_isCoinsCollected);
+            }
         }
     }
 }

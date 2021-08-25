@@ -7,7 +7,6 @@ namespace PlatformerMVC
         private SliderJoint2D _sliderJoint;
         private JointMotor2D _motor;
         private float _motorSpeed;
-        private Rigidbody2D _rigidbody;
 
 
         public void Awake()
